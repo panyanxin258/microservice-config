@@ -1,0 +1,85 @@
+spring:
+  profiles:
+    active:
+    - dev
+---
+server:
+  port: 8001
+
+spring:                                                    #spring整合
+  profiles:  dev
+  application:
+    name: microservicecloud-config-dept-client             #在eurata里对外暴露的微服务名字(左边那个)
+  datasource:                                              #数据库配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/cloudDB01
+    username: root
+    password: 123456
+    dbcp2:
+      min-idle: 5
+      initial-size: 5
+      max-total: 5
+      max-wait-millis: 200
+
+mybatis:                                                   #mybatis整合
+  config-location: classpath:/mybatis/mybatis.cfg.xml      #mybatis配置文件所在路径
+  type-aliases-package: com.atguigu.springcloud.entities   #所有Entity别名类所在包
+  mapper-locations: classpath:mybatis/mapper/**/*.xml    #mapper映射文件
+
+eureka:                                               #eureka的客户端注册
+  client:
+    service-url:
+      #eureka对外暴露的地址
+      defaultZone: http://eureka7001.com:7001/eureka/
+  instance:
+    instance-id: dept-8001.com            #自定义服务名称信息，在eureka里显示自己的别名（右边那个）
+    prefer-ip-address: true                           #访问路径可以显示Ip
+
+ #在eureka的构建时候有一个info的页面需要一个项目的构建信息我们可以在 yml 配置文件中配置
+info:                                               #访问eureka的时候，url最后是跳转/info的
+  app.name: atguigu-microservicecloud
+  company.name: www.atguigu.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+
+  ---
+server:
+  port: 8001
+
+spring:                                                    #spring整合
+  profiles:  test
+  application:
+    name: microservicecloud-config-dept-client             #在eurata里对外暴露的微服务名字(左边那个)
+  datasource:                                              #数据库配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/cloudDB02
+    username: root
+    password: 123456
+    dbcp2:
+      min-idle: 5
+      initial-size: 5
+      max-total: 5
+      max-wait-millis: 200
+
+mybatis:                                                   #mybatis整合
+  config-location: classpath:/mybatis/mybatis.cfg.xml      #mybatis配置文件所在路径
+  type-aliases-package: com.atguigu.springcloud.entities   #所有Entity别名类所在包
+  mapper-locations: classpath:mybatis/mapper/**/*.xml    #mapper映射文件
+
+eureka:                                               #eureka的客户端注册
+  client:
+    service-url:
+      #eureka对外暴露的地址
+      defaultZone: http://eureka7001.com:7001/eureka/
+  instance:
+    instance-id: dept-8001.com            #自定义服务名称信息，在eureka里显示自己的别名（右边那个）
+    prefer-ip-address: true                           #访问路径可以显示Ip
+
+ #在eureka的构建时候有一个info的页面需要一个项目的构建信息我们可以在 yml 配置文件中配置
+info:                                               #访问eureka的时候，url最后是跳转/info的
+  app.name: atguigu-microservicecloud
+  company.name: www.atguigu.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
